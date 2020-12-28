@@ -1,6 +1,5 @@
 package datalayer;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,16 +14,6 @@ public class FileHandler {
 		else {
 			return false;
 		}
-	}
-	public void fileCreate(String path) throws IOException  {
-		if(path!=null) {
-		givenPathImplementer(path);
-		}
-		else {
-			customisePathImplementer(path);
-		}
-		
-		
 	}
 	public void givenPathImplementer(String path) {
 		try {
@@ -50,11 +39,6 @@ public class FileHandler {
 			catch(Exception e) {
 				System.out.print("");
 			}
-	}
-	public static void main(String[] args) throws IOException {
-		FileHandler obj = new FileHandler();
-		System.out.print(obj.isFileExists("D:\\tot.txt"));
-	    obj.fileCreate(null);         
 	}
 	
 }
