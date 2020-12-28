@@ -1,5 +1,6 @@
 package datalayer;
 import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,16 +8,27 @@ import java.nio.file.Paths;
 
 public class FileHandler {
 	
-	public boolean isFileExists(String path) {
+	public boolean isFileExists(String path) throws IOException {
 		Path pat = Paths.get(path);
 		if(Files.exists(pat)) {
 			return true;
 		}
-		else {
+		else  {
 			return false;
 		}
 	}
-	public void givenPathImplementer(String path) {
+	public String fileCreate(String path) throws IOException  {
+		if(path!=null) {
+		   givenPathImplementer(path);
+		}
+		else {
+	       path=customisePathImplementer(path);
+		   
+		}
+		return path;
+	
+}
+	public String givenPathImplementer(String path) {
 		try {
 			File file = new File(path);
 			if(file.createNewFile()) {
@@ -27,12 +39,15 @@ public class FileHandler {
 				System.out.print("Path not found");
 				
 			}
+		return path;
 	}
 	
-	public void customisePathImplementer(String path1) {
+	public String customisePathImplementer(String path) {
 		try {
-			String path11 = System.getProperty("user.dir");
-			File file = new File(path11);
+			 String dir=System.getProperty("user.dir");
+			 path=dir+File.separator+"sample.txt";
+
+			File file = new File(path);
 			if(file.createNewFile()) {
 				System.out.print("");
 			}
@@ -40,19 +55,17 @@ public class FileHandler {
 			catch(Exception e) {
 				System.out.print("");
 			}
+		return path;
 	}
+	
+	public String customisePath(String path) {
+		String dir=System.getProperty("user.dir");
+		 path=dir+File.separator+"sample.txt";
+		return path;
+	}
+	
 	public boolean keyChecker(String key) { 
-		return key.length() <= 32; 
+		return key.length() < 32; 
 	}
-	
-	public void fileCreate(String path) throws IOException  {
-		if(path!=null) {
-		   givenPathImplementer(path);
-		}
-		else {
-	       customisePathImplementer(path);
-		}
-	
-}
 	
 }
