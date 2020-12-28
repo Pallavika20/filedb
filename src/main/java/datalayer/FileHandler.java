@@ -1,5 +1,6 @@
 package datalayer;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,5 +41,18 @@ public class FileHandler {
 				System.out.print("");
 			}
 	}
+	public boolean keyChecker(String key) { 
+		return key.length() <= 32; 
+	}
+	
+	public void fileCreate(String path) throws IOException  {
+		if(path!=null) {
+		   givenPathImplementer(path);
+		}
+		else {
+	       customisePathImplementer(path);
+		}
+	
+}
 	
 }
