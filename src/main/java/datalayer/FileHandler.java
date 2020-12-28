@@ -18,36 +18,43 @@ public class FileHandler {
 	}
 	public void fileCreate(String path) throws IOException  {
 		if(path!=null) {
-		try {
-		File file = new File(path);
-		if(file.createNewFile()) {
-			System.out.print("");
-		}
-		}
-		catch(Exception e) {
-			System.out.print("Path not found");
-			
-		}
+		givenPathImplementer(path);
 		}
 		else {
-			try {
-				String path1 = System.getProperty("user.dir");
-				File file = new File(path1);
-				if(file.createNewFile()) {
-					System.out.print("");
-				}
-				}
-				catch(Exception e) {
-					System.out.print("");
-				}
+			customisePathImplementer(path);
 		}
 		
 		
-	}    
+	}
+	public void givenPathImplementer(String path) {
+		try {
+			File file = new File(path);
+			if(file.createNewFile()) {
+				System.out.print("");
+			}
+			}
+			catch(Exception e) {
+				System.out.print("Path not found");
+				
+			}
+	}
+	
+	public void customisePathImplementer(String path1) {
+		try {
+			String path11 = System.getProperty("user.dir");
+			File file = new File(path11);
+			if(file.createNewFile()) {
+				System.out.print("");
+			}
+			}
+			catch(Exception e) {
+				System.out.print("");
+			}
+	}
 	public static void main(String[] args) throws IOException {
 		FileHandler obj = new FileHandler();
 		System.out.print(obj.isFileExists("D:\\tot.txt"));
-	    obj.fileCreate(null,"pallavi","java");         
+	    obj.fileCreate(null);         
 	}
 	
 }
