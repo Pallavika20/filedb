@@ -16,7 +16,7 @@ public class FileHandler {
 			return false;
 		}
 	}
-	public void fileCreate(String path,String key,String value) throws IOException  {
+	public void fileCreate(String path) throws IOException  {
 		if(path!=null) {
 		try {
 		File file = new File(path);
@@ -26,6 +26,7 @@ public class FileHandler {
 		}
 		catch(Exception e) {
 			System.out.print("Path not found");
+			
 		}
 		}
 		else {
