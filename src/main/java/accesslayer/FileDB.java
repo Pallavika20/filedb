@@ -1,9 +1,16 @@
 package accesslayer;
 
 public class FileDB implements IFileDB {
+	
+	static String globalPath; 
+	
+	FileDB(String path){
+		globalPath = 
+		
+	}
     
 	@Override
-	public boolean create(String path,String key,Object value) {
+	public boolean create(String key,Object value) {
 		
 		return false;
 	}

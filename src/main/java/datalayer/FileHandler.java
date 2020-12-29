@@ -1,8 +1,9 @@
 package datalayer;
 import java.io.File;
 
+
 import java.io.IOException;
-import java.util.Random;
+import java.util.UUID;
 
 public class FileHandler {
 	
@@ -15,6 +16,7 @@ public class FileHandler {
 			return false;
 		}
 	}
+	
 	public String fileCreate(String path) throws IOException  {
 		if(path!=null) {
 		   givenPathImplementer(path);
@@ -24,8 +26,8 @@ public class FileHandler {
 		   
 		}
 		return path;
+	}
 	
-}
 	public String givenPathImplementer(String path) {
 		try {
 			File file = new File(path);
@@ -34,7 +36,7 @@ public class FileHandler {
 			}
 			}
 			catch(Exception e) {
-				System.out.print("Path not found");
+				throw new IllegalArgumentException("
 				
 			}
 		return path;
@@ -43,7 +45,7 @@ public class FileHandler {
 	public String customisePathImplementer(String path) {
 		try {
 			 String dir=System.getProperty("user.dir");
-			 path=dir+File.separator+ randomStringGenerator()+".txt";
+			 path=dir+File.separator+"fileDB.txt";
 
 			File file = new File(path);
 			if(file.createNewFile()) {
@@ -58,23 +60,9 @@ public class FileHandler {
 	
 	public String customisePath(String path) {
 		String dir=System.getProperty("user.dir");
-		 path=dir+File.separator+ randomStringGenerator()+".txt";
+		 path=dir+File.separator+"fileDB.txt";
 		return path;
 	}
-	
-	public String randomStringGenerator() {
-		String alphabet = "abcdefghijklmnopqrstuvwxyz";
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		int length = 7;
-        for(int i = 0; i < length; i++) {
-        	int index = random.nextInt(alphabet.length());
-        	 char randomChar = alphabet.charAt(index);
-        	 sb.append(randomChar);
-        }
-        String randomString = sb.toString();
-        return randomString;
-        }
 	
 	
 	public boolean keyChecker(String key) { 
@@ -82,8 +70,7 @@ public class FileHandler {
 			return true;
 		}
 		else {
-			System.out.print("Size of key exeeds");
-			return false;
+			throw new IllegalArgumentException("Key Character limit exceeds");
 		}
 	}
 	

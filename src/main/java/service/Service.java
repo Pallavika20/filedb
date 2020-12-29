@@ -12,6 +12,16 @@ import datalayer.FileHandler;
 public class Service {
 	FileHandler obj1 = new FileHandler();
  
+	/**
+	 * 
+	 * @param path
+	 * @param key
+	 * @param value
+	 * @return Path where the file is generated
+	 * @throws IOException
+	 * 
+	 * Checks for path to create if path not exists create a new file and return's the path where it got saved. 
+	 */
 	public boolean create(String path,String key,Object value) throws IOException {
 		if(path==null) {
 			path = obj1.customisePath(path);
@@ -47,7 +57,6 @@ public class Service {
 	
 	public static void main(String[] args) throws IOException {
 		Service obj = new Service();
-		System.out.print(obj.create("D:\\pallavi2222.txt", "pallavi pallavi pallavi pallavi  ", "name"));
-		        
+		System.out.print(obj.create("pallavi pallavi pallavi pallavi  ", "name"));		        
 	}
 }
