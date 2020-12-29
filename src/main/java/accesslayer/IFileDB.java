@@ -5,5 +5,4 @@ public interface IFileDB {
 	boolean delete();
 	Object get();
 	Object update();
-	boolean create(String key, Object value);
 }

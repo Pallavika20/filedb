@@ -17,11 +17,6 @@ public class Service {
 			path = obj1.customisePath(path);
 		}
 		if(obj1.isFileExists(path)) {
-			Map<String,Object> map = new HashMap<>();
-			map.put(key, value);
-			Gson gson = new Gson(); 
-			String jsonFromMap = gson.toJson(map);
-			fileWrite(jsonFromMap,path,key);
 			return false;
 		}
 		else {
@@ -50,15 +45,9 @@ public class Service {
 		
 	}
 	
-	
-	
-	public boolean create(String key,String value) throws IOException {
-		obj1.fileCreate(null);
-		return true;
-	}
 	public static void main(String[] args) throws IOException {
 		Service obj = new Service();
-		System.out.print(obj.create(null, "pallavi", "name"));
+		System.out.print(obj.create("D:\\pallavi2222.txt", "pallavi pallavi pallavi pallavi  ", "name"));
 		        
 	}
 }

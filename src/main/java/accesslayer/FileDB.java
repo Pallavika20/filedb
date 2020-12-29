@@ -1,13 +1,9 @@
 package accesslayer;
 
 public class FileDB implements IFileDB {
-
-	public boolean create(String path,String key,Object value) {
-		
-		return false;
-	}
+    
 	@Override
-    public boolean create(String key,Object value) {
+	public boolean create(String path,String key,Object value) {
 		
 		return false;
 	}
