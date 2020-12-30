@@ -8,17 +8,17 @@ import service.Service;
 
 public class FileDB implements IFileDB {
 	
-	public static String globalPath; 
+	public static String globalPath = null; 
 	FileHandler o = new FileHandler();
 	Service objec = new Service();
 	
-	public FileDB(String path) throws FileDBException{
+	public FileDB(String path) throws FileDBException, IOException{
 		globalPath = o.pathChecker(path);
 		
 	}
 	
-	public FileDB() throws FileDBException{
-       globalPath = o.pathChecker(null);
+	public FileDB() throws FileDBException, IOException{
+		globalPath = o.pathChecker(null);
 	}
     
 	@Override
@@ -30,18 +30,25 @@ public class FileDB implements IFileDB {
 		}
 		return true;
 	}
+	
+	@Override
+	public Object get(String key) {
+		try {	
+		return objec.get(globalPath,key);
+		}
+		catch(IOException | FileDBException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@Override
 	public boolean delete() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 
-	@Override
-	public Object get() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Object update() {

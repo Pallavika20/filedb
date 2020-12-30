@@ -1,11 +1,13 @@
 package accesslayer;
 
+import java.io.IOException;
+
 import ExCeption.FileDBException;
 
 public class TestClass {
-	public static void main(String[] args) throws FileDBException {
+	public static void main(String[] args) throws FileDBException, IOException {
     FileDB obj2 = new FileDB();
-    obj2.create("Pallavi222","Pallavi");
+    System.out.println(obj2.get("school"));
    
 }
 }

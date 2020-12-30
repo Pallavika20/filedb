@@ -1,5 +1,6 @@
 package datalayer;
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,7 +15,7 @@ public class FileHandler {
 	
 	public boolean isFileExists(String path) throws IOException {
 		fi = new File(path);
-		if(fi.exists()) {
+		if(fi.exists()&&fi.isDirectory()) {
 			return true;
 		}
 		else  {
@@ -42,9 +43,9 @@ public class FileHandler {
 		return path;
 	}
 	
-	public String givenPath(String path) throws FileDBException {
+	public String givenPath(String path) throws FileDBException, IOException {
 		fi = new File(path);
-		if(fi.exists()) {
+		if(fi.isAbsolute()) {
 			String path1 = path+"fileDB.txt";
 			return path1;
 		}
@@ -53,7 +54,7 @@ public class FileHandler {
 		}
 	}
 	
-	public String pathChecker(String path) throws FileDBException {
+	public String pathChecker(String path) throws FileDBException, IOException {
 		if(path==null) {
 			return nullPath(path);
 		}
@@ -68,15 +69,23 @@ public class FileHandler {
 	}
 	
 	public String strbuilder(String path) throws IOException {
-		StringBuffer  sbf = new StringBuffer(); 
-		File file = new File(path); 
-		
-		BufferedReader br = new BufferedReader(new FileReader(file)); 
-		String st; 
-		  while ((st = br.readLine()) != null) 
-			   sbf.append(st);
-		  br.close();
-	  return sbf.toString();
+		FileReader fr =new FileReader(path);
+		BufferedReader br = new BufferedReader(fr); 
+		StringBuffer sb = new StringBuffer();
+		  String st; 
+		while ((st = br.readLine()) != null) 
+			sb.append(st);
+		br.close();
+		fr.close();
+		String returnString = sb.toString();
+		if(returnString == null) {
+			returnString = "{ }";
+		}
+		returnString = returnString.trim();
+		if(returnString.length() < 1) {
+			returnString = "{ }";
+		}
+		return returnString;
 	}
 
 }
