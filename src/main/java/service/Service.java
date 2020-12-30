@@ -1,17 +1,23 @@
 package service;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import datalayer.FileHandler;
+import ExCeption.FileDBException;
 
 public class Service {
+	Gson gson = new Gson(); 
 	FileHandler obj1 = new FileHandler();
- 
+	FileReader fr;
+	FileWriter fw;
+	Map<String, Object> dbValue;
+	
+	
 	/**
 	 * 
 	 * @param path
@@ -21,42 +27,52 @@ public class Service {
 	 * @throws IOException
 	 * 
 	 * Checks for path to create if path not exists create a new file and return's the path where it got saved. 
+	 * @throws InvalidkeyException 
 	 */
-	public boolean create(String path,String key,Object value) throws IOException {
-		if(path==null) {
-			path = obj1.customisePath(path);
+
+	public void create(String path, String key, Object value) throws IOException, FileDBException {
+		
+		checkInitialConditions(path, key);
+		
+		dbValue = getDbValue(path);
+		if(dbValue.containsKey(key))
+			throw new FileDBException("Key aldready exists");
+		dbValue.put(key, value);
+		saveMapInDB(dbValue, path);
 		}
+	
+	private void saveMapInDB(Map<String, Object> dbValue, String path) throws IOException {
+		fr = new FileReader(path);
+		 FileWriter fw = new FileWriter(path);
+		 fw.write(gson.toJson(path));
+		 
+		 fw.close();
+	}
+
+	private Map<String, Object> getDbValue(String path) throws IOException {
+		String st = obj1.strbuilder(path);
+		Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
+		dbValue = gson.fromJson(st, mapType);
+		return dbValue;
+	}
+	private void checkInitialConditions(String path, String key) throws FileDBException, IOException {
+		File file = new File(path);
+		path = obj1.pathChecker(path);
+		obj1.keyChecker(key);
 		if(obj1.isFileExists(path)) {
-			return false;
+			sizeChecker(file);
 		}
 		else {
-			path = obj1.fileCreate(path);
-			Map<String,Object> map = new HashMap<>();
-			map.put(key, value);
-			Gson gson = new Gson(); 
-			String jsonFromMap = gson.toJson(map);
-			fileWrite(jsonFromMap,path,key);
-			return true;
+			file.createNewFile();
 		}
+		
 		
 	}
 	
-	public void fileWrite(String son,String path,String key) throws IOException {
-		try {
-			if(obj1.keyChecker(key)) {
-				FileWriter fw = new FileWriter(path);
-				fw.write(son);
-				fw.close();
-			}
-		}
-		catch(Exception e) {
-			System.out.print("");
-		}
-		
+	public boolean sizeChecker(File file) {
+		return ((double) file.length() / (1024 * 1024) < 1024);	
 	}
 	
-	public static void main(String[] args) throws IOException {
-		Service obj = new Service();
-		System.out.print(obj.create("pallavi pallavi pallavi pallavi  ", "name"));		        
-	}
 }
+	
+

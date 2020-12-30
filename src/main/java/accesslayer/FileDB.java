@@ -1,18 +1,34 @@
 package accesslayer;
 
+import java.io.IOException;
+
+import ExCeption.FileDBException;
+import datalayer.FileHandler;
+import service.Service;
+
 public class FileDB implements IFileDB {
 	
-	static String globalPath; 
+	public static String globalPath; 
+	FileHandler o = new FileHandler();
+	Service objec = new Service();
 	
-	FileDB(String path){
-		globalPath = 
+	public FileDB(String path) throws FileDBException{
+		globalPath = o.pathChecker(path);
 		
+	}
+	
+	public FileDB() throws FileDBException{
+       globalPath = o.pathChecker(null);
 	}
     
 	@Override
 	public boolean create(String key,Object value) {
-		
-		return false;
+		try {
+			objec.create(globalPath,key,value);
+		} catch (IOException | FileDBException e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
