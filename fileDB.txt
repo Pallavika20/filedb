@@ -1,1 +1,1 @@
-{"Pa":"Pallavi","Pallavi":"Pallavi","school":{"student":["high","pallavi"]}}
+{"Pa":"Pallavi","Pallavi":"Pallavi","school":{"student":["high","pallavi"]},"subject":{"data":"english","time":20.0},"college":{"data":66,"time":19}}}
