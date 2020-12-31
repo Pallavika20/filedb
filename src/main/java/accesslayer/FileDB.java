@@ -1,7 +1,6 @@
 package accesslayer;
 
 import java.io.IOException;
-import java.time.Instant;
 
 import ExCeption.FileDBException;
 import datalayer.FileHandler;
@@ -25,26 +24,31 @@ public class FileDB implements IFileDB {
 	@Override
 	public boolean create(String key,Object value) throws FileDBException, IOException {
 		try {
-		objec.create(globalPath,key,value,(Instant) null);
+		objec.create(key, value,  null);
 		return true;
 		}
 		catch(IOException | FileDBException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
-	public boolean create(String key,Object value,Instant timetolive) {
-	try {
-		objec.create(globalPath,key,value,timetolive);
-	} catch (IOException | FileDBException e) {
-		e.printStackTrace();
-	}
-	return true;
+	
+	@Override
+	public boolean create(String key, Object value, int timeLimit) throws FileDBException, IOException {
+		try {
+		objec.create(key, value, timeLimit);
+		return true;
+		}
+		catch(IOException | FileDBException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	@Override
 	public Object get(String key) {
-		try {	
-		return objec.get(globalPath,key);
+		try {
+		return objec.get(key);
 		}
 		catch(IOException | FileDBException e) {
 			e.printStackTrace();
@@ -55,7 +59,7 @@ public class FileDB implements IFileDB {
 	@Override
 	public boolean delete(String key) {
 		try {	
-             objec.delete(globalPath,key);
+             objec.delete(key);
              return true;
 			}
 			catch(IOException | FileDBException e) {

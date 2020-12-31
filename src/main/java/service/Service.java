@@ -2,8 +2,9 @@ package service;
 
 import java.io.*;
 
+
 import java.lang.reflect.Type;
-import java.time.Instant;
+import java.util.Calendar;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import datalayer.FileHandler;
 import datalayer.FileStorageStructure;
 import ExCeption.FileDBException;
+import accesslayer.FileDB;
 
 public class Service {
 	Gson gson = new Gson(); 
@@ -20,66 +22,66 @@ public class Service {
 	FileWriter fw;
 	Map<String, FileStorageStructure> dbValue;
 	
-	
-	/**
-	 * 
-	 * @param path
-	 * @param key
-	 * @param value
-	 * @return Path where the file is generated
-	 * @throws IOException
-	 * 
-	 * Checks for path to create if path not exists create a new file and return's the path where it got saved. 
-	 * @throws InvalidkeyException 
-	 */
-	
-	private FileStorageStructure getFileStorageStructure(Object value,Instant time) {
-		FileStorageStructure fss = new FileStorageStructure();
-		fss.setData(value);
-		fss.setTime(time);
-		return fss;
+	public synchronized void create(String key, Object value, Integer timeLimit) throws FileDBException, IOException {
+		checkInitialConditions(key);
+		dbValue = getDbValue();
+		if(dbValue.containsKey(key))
+			throw new FileDBException("Key aldready exists");
+		dbValue.put(key, getFileStroageStructure(value, timeLimit));
+		saveMapInDB(dbValue);
 		
 	}
-	
-	public Object get(String path,String key) throws FileDBException, IOException  {
-		dbValue = getDbValue(path);
-		if(dbValue.containsKey(key))
-			return dbValue.get(key);
+		
+	public synchronized Object get(String key) throws FileDBException, IOException  {
+		dbValue = getDbValue();
+		if(dbValue.containsKey(key)) {
+			FileStorageStructure fileStorage = dbValue.get(key);
+			if(fileStorage.getTime() != null && fileStorage.getTime() >= Calendar.getInstance().getTimeInMillis()) {
+				return fileStorage.getData();
+			}
+			else if(fileStorage.getTime() == null) {
+				return fileStorage.getData();
+			}
+			else{
+				this.delete(key);
+				throw new FileDBException("Deleted Key, Illegal Access");
+			}
+		}
 		else {
 			throw new FileDBException("Key doesn't Exists");
 		}
 		}
 	
-	public void delete(String path,String key) throws FileDBException, IOException  {
-		dbValue = getDbValue(path);
+	public synchronized void delete(String key) throws FileDBException, IOException  {
+		dbValue = getDbValue();
 		if(dbValue.containsKey(key)) {
 			dbValue.remove(key);
-			saveMapInDB(dbValue, path);
+			saveMapInDB(dbValue);
 		}
 		else {
 			throw new FileDBException("Key doesn't Exists");
 		}
-		}
+	}
 	
-	private void saveMapInDB(Map<String, FileStorageStructure> dbValue, String path) throws IOException {
+	private void saveMapInDB(Map<String, FileStorageStructure> dbValue) throws IOException {
 	  String db = gson.toJson(dbValue);
-	  
-	  FileWriter fw = new FileWriter(path);
+	  FileWriter fw = new FileWriter(FileDB.globalPath);
 	  fw.write(db);
 	  fw.close();
 	}
     
 
-	public Map<String, FileStorageStructure> getDbValue(String path) throws IOException {
-		Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-		String st = obj1.strbuilder(path);
+	public Map<String, FileStorageStructure> getDbValue() throws IOException {
+		Type mapType = new TypeToken<Map<String, FileStorageStructure>>(){}.getType();
+		String st = obj1.strbuilder(FileDB.globalPath);
 		dbValue = gson.fromJson(st, mapType);
 		return dbValue;
 	}
-	private void checkInitialConditions(String path, String key) throws FileDBException, IOException {
-		File file = new File(path);
+	
+	private void checkInitialConditions( String key) throws FileDBException, IOException {
+		File file = new File(FileDB.globalPath);
 		obj1.keyChecker(key);
-		if(obj1.isFileExists(path)) {
+		if(obj1.isFileExists(FileDB.globalPath)) {
 			sizeChecker(file);
 		}
 		else {
@@ -91,14 +93,18 @@ public class Service {
 		return ((double) file.length() / (1024 * 1024) < 1024);	
 	}
 
-	public void create(String path, String key, Object value, Instant time) throws FileDBException, IOException {
-		checkInitialConditions(path, key);
-		dbValue = getDbValue(path);
-		if(dbValue.containsKey(key))
-			throw new FileDBException("Key aldready exists");
-		System.out.println(Instant.now());
-		dbValue.put(key, getFileStorageStructure( value,time));
-		saveMapInDB(dbValue, path);
+	private FileStorageStructure getFileStroageStructure(Object value, Integer time) throws FileDBException {
+		FileStorageStructure fileStorage = new FileStorageStructure();
+		fileStorage.setData(value);
+		if(time != null)
+			fileStorage.setTime(Calendar.getInstance().getTimeInMillis() + (time * 1000));
+		if(checkFileSize(new Gson().toJson(value)))
+		   throw new FileDBException("Value size exceeds the limit of 16 KB");
+		return fileStorage;
+	}
+
+	private boolean checkFileSize(String json){
+		return json.getBytes().length > 16000;
 	}
 	
 }

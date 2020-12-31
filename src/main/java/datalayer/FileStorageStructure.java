@@ -1,11 +1,9 @@
 package datalayer;
 
-import java.time.Instant;
-
 public class FileStorageStructure {
 	
 	private Object data ;
-	private Instant time;
+	private Long time;
 	
 	public Object getData() {
 		return data;
@@ -13,11 +11,11 @@ public class FileStorageStructure {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	public Instant getTime() {
+	public Long getTime() {
 		return time;
 	}
-	public void setTime(Instant time) {
-		this.time = time;
+	public void setTime(Long long1) {
+		this.time = long1;
 	}
 
 }

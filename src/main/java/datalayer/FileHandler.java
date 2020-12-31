@@ -1,11 +1,10 @@
 package datalayer;
 import java.io.BufferedReader;
 
+
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-
 import ExCeption.FileDBException;
 
 
@@ -21,18 +20,6 @@ public class FileHandler {
 		else  {
 			return false;
 		}
-	}
-	
-	public void fileWrite(String path,String son,String key) throws IOException {
-		try {
-				FileWriter fw = new FileWriter(path);
-				fw.write(son);
-				fw.close();
-		}
-		catch(Exception e) {
-			
-		}
-		
 	}
 	
 	
