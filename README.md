@@ -1,21 +1,21 @@
-#FileDB
+# FileDB
 
-###what is fileDB?
+### What is fileDB?
 
      FileDB is a library that will store a key value pairs in Json format.
      
-##Actions : 
+## Actions : 
 
-###Create 
+### Create 
   Create, creates an entry in DB.
   
-  For Example : 
+  #### For Example : 
     ``` FileDB fileDB = new FilDB("path (Optional)");
         fileDB.create("key", "Value");
     ```
-    ###Throws FileDBException
+    ### Throws FileDBException
 
-###Delete 
+### Delete 
   Delete operation deletes a particular key value from the DB.
   
   For Example : 
@@ -24,7 +24,7 @@
     ```
     ###Throws FileDBException
     
- ###Get 
+ ### Get 
   Get, retrives specific key's value from the DB
   
   For Example : 
@@ -33,5 +33,5 @@
     ```
     ###Throws FileDBException
     
-  ###Limitations : 
+  ### Limitations : 
    1. 
