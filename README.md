@@ -11,8 +11,10 @@
   
   #### For Example : 
   
-    ``` FileDB fileDB = new FileDB('path'(Optional))
-    ```
+ ```java 
+ FileDB fileDB = new FileDB('path'(Optional));
+ fileDB.create('key','value','timeToLive'(Optional));
+ ```
     
    ##### Throws FileDBException
     
