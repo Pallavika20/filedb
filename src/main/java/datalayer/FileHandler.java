@@ -5,35 +5,32 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import ExCeption.FileDBException;
+
+import customexception.FileDBException;
 
 
 
 public class FileHandler {
 	File fi;
 	
-	public boolean isFileExists(String path) throws IOException {
-		fi = new File(path);
-		if(fi.exists()&&fi.isDirectory()) {
-			return true;
-		}
-		else  {
-			return false;
-		}
+	public boolean isFileExists(File file) throws IOException {
+		return file.exists();
+	}
+	
+	public boolean isFileDirectoryExists(File filePath) {
+		return filePath.isDirectory();
 	}
 	
 	
-	
-	public String nullPath(String path) {
-		String dir=System.getProperty("user.dir");
-		 path=dir+File.separator+"fileDB.txt";
-		return path;
+	public String nullPath(){
+		String dir = System.getProperty("user.dir");
+		return dir + File.separator + "fileDB.txt";
 	}
 	
 	public String givenPath(String path) throws FileDBException, IOException {
 		fi = new File(path);
-		if(fi.isAbsolute()) {
-			String path1 = path+"fileDB.txt";
+		if(fi.isAbsolute() && fi.isDirectory()) {
+			String path1 = path + "fileDB.txt";
 			return path1;
 		}
 		else {
@@ -41,21 +38,23 @@ public class FileHandler {
 		}
 	}
 	
-	public String pathChecker(String path) throws FileDBException, IOException {
-		if(path==null) {
-			return nullPath(path);
-		}
-		else {
-		   return givenPath(path);
-		}
-	}
+	
+	
 	public void keyChecker(String key) throws FileDBException { 
+		if(key == null) {
+			throw new FileDBException("Key cannot be null");
+		}
+		
+		if(key.trim().equals("")) {
+			throw new FileDBException("Key cannot be Empty");
+		}
+		
 		if ( key.length() >32) {
 			throw new FileDBException("Key Character limit exceeds");
 		}
 	}
 	
-	public String strbuilder(String path) throws IOException {
+	public String strbuilder(File path) throws IOException {
 		FileReader fr =new FileReader(path);
 		BufferedReader br = new BufferedReader(fr); 
 		StringBuffer sb = new StringBuffer();

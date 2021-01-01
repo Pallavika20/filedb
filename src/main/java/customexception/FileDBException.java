@@ -1,14 +1,7 @@
-package ExCeption;
+package customexception;
 
 public class FileDBException extends Exception{
-
-		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 		public FileDBException(String s){  
 		  super(s);  
 		}
-
 }

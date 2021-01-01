@@ -2,74 +2,64 @@ package accesslayer;
 
 import java.io.IOException;
 
-import ExCeption.FileDBException;
+import customexception.FileDBException;
 import datalayer.FileHandler;
 import service.Service;
 
 public class FileDB implements IFileDB {
 	
 	public static String globalPath = null; 
-	FileHandler o = new FileHandler();
-	Service objec = new Service();
+	private FileHandler o = new FileHandler();
+	private Service fileDBServices = new Service();
 	
-	public FileDB(String path) throws FileDBException, IOException{
-		globalPath = o.pathChecker(path);
-		
+	/**
+	 * 
+	 * @param directory
+	 * @throws FileDBException
+	 * @throws IOException
+	 * 
+	 * Accepts directory path as a parameter to do actions.
+	 */
+	public FileDB(String directory) throws FileDBException, IOException{
+		globalPath = o.givenPath(directory);
 	}
 	
-	public FileDB() throws FileDBException, IOException{
-		globalPath = o.pathChecker(null);
+	
+	/**
+	 * Creates file in current directory
+	 */
+	public FileDB(){
+		globalPath = o.nullPath();
 	}
     
 	@Override
 	public boolean create(String key,Object value) throws FileDBException, IOException {
-		try {
-		objec.create(key, value,  null);
+		fileDBServices.create(key, value, null);
 		return true;
-		}
-		catch(IOException | FileDBException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 	
 	@Override
 	public boolean create(String key, Object value, int timeLimit) throws FileDBException, IOException {
-		try {
-		objec.create(key, value, timeLimit);
+		fileDBServices.create(key, value, timeLimit);
 		return true;
-		}
-		catch(IOException | FileDBException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 	
+	/***
+	 * @param String key 
+	 * Creates a object with the given key
+	 */
 	@Override
-	public Object get(String key) {
-		try {
-		return objec.get(key);
-		}
-		catch(IOException | FileDBException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Object get(String key) throws FileDBException, IOException {
+		return fileDBServices.get(key);
 	}
 
+	/**
+	 * @param String key
+	 * Deletes the key if exists
+	 */
 	@Override
-	public boolean delete(String key) {
-		try {	
-             objec.delete(key);
-             return true;
-			}
-			catch(IOException | FileDBException e) {
-				e.printStackTrace();
-			return false;	
-			}
-      }
-	
-	public static void main(String[] args) {
-		
-	}
+	public boolean delete(String key)  throws FileDBException, IOException {
+      	return fileDBServices.delete(key);
+    }
 	
 }
