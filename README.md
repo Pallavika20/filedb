@@ -10,6 +10,7 @@
   Create, creates an entry in DB.
   
   #### For Example : 
+  
     ``` 
     FileDB fileDB = new FilDB("path (Optional)");
     fileDB.create("key", "Value");
@@ -18,17 +19,18 @@
     ##### Throws FileDBException
     
   SNo | Parameter | Type 
---- | --- | --- |
- 1. | key | String
- --- | --- | --- |
- 2. | value | Object
- --- | --- | --- |
- 3. | timeLimit (Optional) | integer (Seconds)
+  --- | --- | --- |
+   1. | key | String
+  --- | --- | --- |
+   2. | value | Object
+  --- | --- | --- |
+   3. | timeLimit (Optional) | integer (Seconds)
  
 ### Delete 
   Delete operation deletes a particular key value from the DB.
   
-  For Example : 
+  For Example :
+  
     ```
         fileDB.delete("key");
     ```
@@ -37,7 +39,8 @@
  ### Get 
   Get, retrives specific key's value from the DB
   
-  For Example : 
+  For Example :
+  
     ```
         fileDB.get("key");
     ```
