@@ -11,9 +11,7 @@
   
   #### For Example : 
   
-    ``` 
-    FileDB fileDB = new FilDB("path (Optional)");
-    fileDB.create("key", "Value");
+    ``` FileDB fileDB = new FileDB('path'(Optional))
     ```
     
    ##### Throws FileDBException
