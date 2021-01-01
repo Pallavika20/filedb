@@ -18,13 +18,11 @@
     ```
     ##### Throws FileDBException
     
-  SNo | Parameter | Type 
-  --- | --- | --- | ---
-   1. | key | String
-  --- | --- | --- | ---
-   2. | value | Object
-  --- | --- | --- | ---
-   3. | timeLimit (Optional) | integer (Seconds)
+| Parameter | Type |
+| ------------- | ------------- |
+| Key  | String  |
+| Value | Object  |
+| Time to Live | Seconds  |
  
 ### Delete 
   Delete operation deletes a particular key value from the DB.
