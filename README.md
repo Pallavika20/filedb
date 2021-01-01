@@ -16,7 +16,7 @@
     fileDB.create("key", "Value");
     ```
     
-    ##### Throws FileDBException
+   ##### Throws FileDBException
     
 | Parameter | Type |
 | ------------- | ------------- |
@@ -32,7 +32,7 @@
     ```
         fileDB.delete("key");
     ```
-    ##### Throws FileDBException
+   ##### Throws FileDBException
     
  ### Get 
   Get, retrives specific key's value from the DB
@@ -42,7 +42,7 @@
     ```
         fileDB.get("key");
     ```
-    ##### Throws FileDBException
+  ##### Throws FileDBException
     
   ### Limitations : 
    - Key should be a string and should not exceed 32 charachters.
