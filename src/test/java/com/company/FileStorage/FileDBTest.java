@@ -16,10 +16,12 @@ public class FileDBTest
 {
 	private FileDB fileDB = new FileDB();
    
-	 @Test
-	    public void createWithTime() throws FileDBException, IOException{
-	    	assertEquals(true,  fileDB.create("he", "SomeValue To be stored",0));
-	    }
+	@Test
+	public void createWithTime() throws FileDBException, IOException{
+		String id = UUID.randomUUID().toString().substring(0, 32);
+	    assertEquals(true,  fileDB.create(id, "SomeValue To be stored",0));
+	}
+	
     @Test
     public void createWithKey() throws FileDBException, IOException{
     	String id = UUID.randomUUID().toString().substring(0, 32);
@@ -28,9 +30,10 @@ public class FileDBTest
     
     @Test
     public void createWithKeyinPath() throws FileDBException, IOException{
-    	new FileDB("D:\\");
-    	assertEquals(true, fileDB.create("hydera", "SomeValue To be stored"));
+    	String id = UUID.randomUUID().toString().substring(0, 32);
+    	assertEquals(true, new FileDB("D:\\").create(id, "SomeValue To be stored"));
     }
+    
     @Test(expected = FileDBException.class)
     public void createWithExixtsKey() throws FileDBException, IOException{
         fileDB.create("fourtynine", "SomeValue To be stored");
@@ -43,7 +46,7 @@ public class FileDBTest
     
     @Test(expected = FileDBException.class)
     public void createWithoutKeyempty() throws FileDBException, IOException{
-    	fileDB.create(" ", "SomeValue To be stored");
+    	fileDB.create("", "SomeValue To be stored");
     }
     
     @Test(expected = FileDBException.class)
