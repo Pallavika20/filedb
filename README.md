@@ -14,8 +14,8 @@
     ``` 
     FileDB fileDB = new FilDB("path (Optional)");
     fileDB.create("key", "Value");
-    
     ```
+    
     ##### Throws FileDBException
     
 | Parameter | Type |
